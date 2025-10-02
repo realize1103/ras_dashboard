@@ -36,7 +36,17 @@ cd ras_dashboard
 npm install
 ```
 
-### 2. 환경 변수 설정
+### 2. 매직미러 모드 (브라우저 없이 전체화면)
+
+```bash
+# 개발 모드로 매직미러 실행
+npm run magic-mirror
+
+# 또는
+npm run electron-dev
+```
+
+### 3. 환경 변수 설정
 
 `.env.local` 파일을 생성하고 다음 내용을 추가하세요:
 
@@ -52,7 +62,7 @@ ALPHA_VANTAGE_API_KEY=your_alpha_vantage_api_key_here
 NEXT_PUBLIC_APP_NAME=RAS Dashboard
 ```
 
-### 3. 개발 서버 실행
+### 4. 개발 서버 실행
 
 ```bash
 npm run dev
@@ -60,12 +70,60 @@ npm run dev
 
 브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 확인하세요.
 
-### 4. 프로덕션 빌드
+### 5. 프로덕션 빌드
 
 ```bash
 npm run build
 npm start
 ```
+
+### 6. 매직미러 앱 빌드
+
+```bash
+# Electron 앱 빌드
+npm run electron-build
+
+# 또는 디렉토리로 패키징
+npm run electron-pack
+```
+
+## 🪞 매직미러 모드
+
+### 매직미러란?
+매직미러는 브라우저 없이 전체화면으로 실행되는 대시보드입니다. 라즈베리파이에 연결된 터치 모니터에서 바로 실행되어 벽에 걸어두고 사용할 수 있습니다.
+
+### 매직미러 실행 방법
+
+#### 개발 모드
+```bash
+npm run magic-mirror
+```
+
+#### 프로덕션 모드
+```bash
+npm run build
+npm run electron
+```
+
+### 매직미러 키보드 단축키
+- **ESC**: 앱 종료
+- **F11**: 전체화면 토글
+- **Ctrl+Q**: 앱 종료
+
+### 라즈베리파이 매직미러 설정
+
+```bash
+# 매직미러 자동 설정 스크립트 실행
+chmod +x magic-mirror-setup.sh
+./magic-mirror-setup.sh
+```
+
+이 스크립트는 다음을 자동으로 설정합니다:
+- Electron 앱 빌드
+- systemd 서비스 등록
+- 자동 로그인 설정
+- 터치 모니터 최적화
+- 부팅 시 자동 실행
 
 ## 🍓 라즈베리파이 배포
 

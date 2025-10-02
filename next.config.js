@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 라즈베리파이 환경 최적화
-  output: 'standalone',
+  // Electron용 정적 내보내기
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
   
   // 터치 모니터 최적화
   experimental: {
@@ -10,7 +12,7 @@ const nextConfig = {
   
   // 이미지 최적화
   images: {
-    unoptimized: true, // 라즈베리파이에서 이미지 최적화 비활성화
+    unoptimized: true, // 정적 내보내기용
   },
   
   // 성능 최적화
