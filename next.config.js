@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Electron용 정적 내보내기
-  output: 'export',
+  // 개발 모드에서는 API 라우트 사용, 프로덕션에서는 정적 내보내기
+  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
   trailingSlash: true,
   distDir: 'out',
   
@@ -12,7 +12,7 @@ const nextConfig = {
   
   // 이미지 최적화
   images: {
-    unoptimized: true, // 정적 내보내기용
+    unoptimized: true,
   },
   
   // 성능 최적화
@@ -22,25 +22,6 @@ const nextConfig = {
   env: {
     OPENWEATHER_API_KEY: process.env.OPENWEATHER_API_KEY,
     OPENWEATHER_CITY_ID: process.env.OPENWEATHER_CITY_ID,
-  },
-  
-  // PWA 설정 (선택사항)
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-        ],
-      },
-    ];
   },
 };
 

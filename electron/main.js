@@ -1,6 +1,8 @@
 const { app, BrowserWindow, screen } = require('electron');
 const path = require('path');
-const isDev = require('electron-is-dev');
+
+// electron-is-dev 대신 직접 확인
+const isDev = process.env.NODE_ENV !== 'production';
 
 let mainWindow;
 
@@ -30,9 +32,13 @@ function createWindow() {
   });
 
   // 개발 환경에서는 개발 서버, 프로덕션에서는 빌드된 파일
-  const startUrl = isDev 
-    ? 'http://localhost:3000' 
-    : `file://${path.join(__dirname, '../out/index.html')}`;
+  let startUrl;
+  if (isDev) {
+    // 포트 3000을 우선으로 사용
+    startUrl = 'http://localhost:3000';
+  } else {
+    startUrl = `file://${path.join(__dirname, '../out/index.html')}`;
+  }
   
   mainWindow.loadURL(startUrl);
 

@@ -94,21 +94,65 @@ npm run electron-pack
 
 ### 매직미러 실행 방법
 
-#### 개발 모드
+#### 🚀 **자동 전체화면 모드** (권장)
 ```bash
 npm run magic-mirror
 ```
+- Next.js 서버 자동 시작
+- Safari 자동 열기 및 전체화면 전환
+- 완전 자동화된 매직미러
 
-#### 프로덕션 모드
+#### 🔧 **간단한 모드**
 ```bash
-npm run build
-npm run electron
+npm run magic-mirror-simple
 ```
+- Next.js 서버 시작
+- 브라우저 열기 (수동으로 F11 전체화면)
+- 권한 문제가 있을 때 사용
+
+#### ⚡ **Electron 모드**
+```bash
+npm run magic-mirror-electron
+```
+- Electron 앱으로 실행
+- 네이티브 앱처럼 동작
 
 ### 매직미러 키보드 단축키
 - **ESC**: 앱 종료
 - **F11**: 전체화면 토글
 - **Ctrl+Q**: 앱 종료
+
+### 🛠️ **스크립트 직접 실행**
+
+#### 자동 전체화면 스크립트
+```bash
+./start-magic-mirror.sh
+```
+
+#### 간단한 스크립트
+```bash
+./simple-magic-mirror.sh
+```
+
+### 🔧 **문제 해결**
+
+#### 권한 오류가 발생하는 경우
+```bash
+# 간단한 모드 사용
+npm run magic-mirror-simple
+
+# 또는 브라우저에서 수동으로 F11 전체화면
+```
+
+#### 포트 충돌이 발생하는 경우
+```bash
+# 기존 프로세스 정리
+pkill -f "next dev"
+pkill -f "magic-mirror"
+
+# 다시 실행
+npm run magic-mirror
+```
 
 ### 라즈베리파이 매직미러 설정
 

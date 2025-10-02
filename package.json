@@ -17,7 +17,9 @@
     "electron-dev": "concurrently \"npm run dev\" \"wait-on http://localhost:3000 && electron .\"",
     "electron-build": "next build && next export && electron-builder",
     "electron-pack": "next build && next export && electron-builder --dir",
-    "magic-mirror": "npm run electron-dev"
+    "magic-mirror": "./start-magic-mirror.sh",
+    "magic-mirror-simple": "./simple-magic-mirror.sh",
+    "magic-mirror-electron": "npm run electron-dev"
   },
   "dependencies": {
     "lucide-react": "^0.460.0",
@@ -45,7 +47,7 @@
     "typescript": "^5.7.2",
     "wait-on": "^9.0.1"
   },
-  "main": "electron/main.js",
+  "main": "./electron/main.js",
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
