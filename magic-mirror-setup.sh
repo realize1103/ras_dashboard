@@ -48,13 +48,20 @@ fi
 print_status "npm 버전: $(npm --version)"
 
 # 프로젝트 디렉토리 확인
-if [ ! -d "ras_dashboard" ]; then
-    print_error "ras_dashboard 디렉토리를 찾을 수 없습니다."
+if [ ! -d "ras_dashboard" ] && [ ! -f "package.json" ]; then
+    print_error "ras_dashboard 디렉토리 또는 package.json을 찾을 수 없습니다."
     print_status "프로젝트를 먼저 복사해 주세요."
+    print_status "또는 현재 디렉토리에서 실행해 주세요."
     exit 1
 fi
 
-cd ras_dashboard
+# ras_dashboard 디렉토리가 있으면 이동, 없으면 현재 디렉토리 사용
+if [ -d "ras_dashboard" ]; then
+    cd ras_dashboard
+    print_status "ras_dashboard 디렉토리로 이동했습니다."
+else
+    print_status "현재 디렉토리에서 실행합니다."
+fi
 
 # 의존성 설치
 print_status "프로젝트 의존성을 설치합니다..."

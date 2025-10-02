@@ -19,7 +19,8 @@
     "electron-pack": "next build && next export && electron-builder --dir",
     "magic-mirror": "./start-magic-mirror.sh",
     "magic-mirror-simple": "./simple-magic-mirror.sh",
-    "magic-mirror-electron": "npm run electron-dev"
+    "magic-mirror-electron": "npm run electron-dev",
+    "magic-mirror-pi": "./raspberry-pi-magic-mirror.sh"
   },
   "dependencies": {
     "lucide-react": "^0.460.0",
