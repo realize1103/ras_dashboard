@@ -1,36 +1,200 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RAS Dashboard
 
-## Getting Started
+라즈베리파이 4 + 4인치 터치 모니터용 날씨 대시보드입니다.
 
-First, run the development server:
+## 🚀 기능
+
+- **실시간 날씨 정보**: OpenWeather API를 통한 현재 날씨 데이터
+- **터치 최적화**: 4인치 터치 모니터에 최적화된 UI
+- **자동 새로고침**: 5분마다 자동으로 날씨 데이터 업데이트
+- **라즈베리파이 최적화**: 저전력 ARM 프로세서에 최적화된 성능
+- **글래스모피즘 디자인**: 현대적이고 아름다운 UI
+
+## 🛠️ 기술 스택
+
+- **Frontend**: Next.js 15, React 18, TypeScript
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **API**: OpenWeather API
+- **Target**: Raspberry Pi 4 + 4" Touch Monitor
+
+## 📋 요구사항
+
+- Node.js 18.0.0 이상
+- npm 8.0.0 이상
+- 라즈베리파이 4 (권장: 4GB RAM 이상)
+- 4인치 터치 모니터
+- 인터넷 연결
+
+## 🚀 설치 및 실행
+
+### 1. 프로젝트 클론 및 의존성 설치
+
+```bash
+git clone <repository-url>
+cd ras_dashboard
+npm install
+```
+
+### 2. 환경 변수 설정
+
+`.env.local` 파일을 생성하고 다음 내용을 추가하세요:
+
+```env
+# OpenWeather API 설정
+OPENWEATHER_API_KEY=b24782eb6779829f27a06cd0ef599357
+OPENWEATHER_CITY_ID=3081368
+
+# Alpha Vantage API 설정 (선택사항 - Yahoo Finance가 기본)
+ALPHA_VANTAGE_API_KEY=your_alpha_vantage_api_key_here
+
+# 앱 설정
+NEXT_PUBLIC_APP_NAME=RAS Dashboard
+```
+
+### 3. 개발 서버 실행
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 확인하세요.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. 프로덕션 빌드
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## 🍓 라즈베리파이 배포
 
-To learn more about Next.js, take a look at the following resources:
+### 1. 라즈베리파이 설정
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Node.js 설치 (라즈베리파이용)
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# 프로젝트 복사
+scp -r ras_dashboard pi@<raspberry-pi-ip>:~/ras_dashboard
+```
 
-## Deploy on Vercel
+### 2. 라즈베리파이에서 실행
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# 라즈베리파이에 SSH 접속
+ssh pi@<raspberry-pi-ip>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# 프로젝트 디렉토리로 이동
+cd ~/ras_dashboard
+
+# 의존성 설치 및 빌드
+npm run raspberry-pi:setup
+
+# 서버 시작
+npm run raspberry-pi:start
+```
+
+### 3. 자동 시작 설정 (systemd)
+
+```bash
+# 서비스 파일 생성
+sudo nano /etc/systemd/system/ras-dashboard.service
+```
+
+다음 내용을 추가:
+
+```ini
+[Unit]
+Description=RAS Dashboard
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/ras_dashboard
+ExecStart=/usr/bin/npm start
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+```
+
+서비스 활성화:
+
+```bash
+sudo systemctl enable ras-dashboard
+sudo systemctl start ras-dashboard
+```
+
+## 🎨 UI 특징
+
+- **터치 친화적**: 최소 44px 터치 영역 보장
+- **글래스모피즘**: 반투명 배경과 블러 효과
+- **반응형**: 다양한 화면 크기 지원
+- **애니메이션**: 부드러운 전환 효과
+- **접근성**: 고대비 모드 지원
+
+## 🔧 설정
+
+### OpenWeather API 설정
+
+1. [OpenWeatherMap](https://openweathermap.org/)에서 계정 생성
+2. API 키 발급
+3. `.env.local` 파일에 API 키 설정
+
+### 도시 ID 변경
+
+다른 도시의 날씨를 보려면 `OPENWEATHER_CITY_ID`를 변경하세요:
+
+- 서울: `1835848`
+- 부산: `1838519`
+- 대구: `1835327`
+- 인천: `1843561`
+
+## 🐛 문제 해결
+
+### 자주 발생하는 문제
+
+1. **API 키 오류**: OpenWeather API 키가 올바른지 확인
+2. **네트워크 연결**: 라즈베리파이의 인터넷 연결 확인
+3. **터치 인식**: 터치 모니터 드라이버 설치 확인
+4. **성능 이슈**: 라즈베리파이 4 4GB 모델 권장
+
+### 로그 확인
+
+```bash
+# 서비스 로그 확인
+sudo journalctl -u ras-dashboard -f
+
+# 애플리케이션 로그 확인
+tail -f ~/ras_dashboard/logs/app.log
+```
+
+## 📱 터치 모니터 최적화
+
+- **화면 회전**: 필요시 `xrandr` 명령어로 화면 회전
+- **터치 보정**: `xinput_calibrator`로 터치 보정
+- **자동 로그인**: 라즈베리파이 부팅 시 자동으로 대시보드 실행
+
+## 🤝 기여하기
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 라이선스
+
+이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 `LICENSE` 파일을 참조하세요.
+
+## 📞 지원
+
+문제가 발생하거나 질문이 있으시면 이슈를 생성해 주세요.
+
+---
+
+**RAS Dashboard** - 라즈베리파이와 터치 모니터로 만드는 스마트 날씨 대시보드 🌤️

@@ -1,26 +1,113 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* 터치 모니터 최적화 */
+@layer base {
+  html {
+    /* 터치 스크롤 최적화 */
+    -webkit-overflow-scrolling: touch;
+    /* 터치 액션 최적화 */
+    touch-action: manipulation;
+  }
+  
+  body {
+    /* 터치 하이라이트 제거 */
+    -webkit-tap-highlight-color: transparent;
+    /* 터치 액션 최적화 */
+    touch-action: manipulation;
+    /* 스크롤바 숨기기 */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  body::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* 터치 친화적 버튼 */
+  button, [role="button"] {
+    /* 터치 액션 최적화 */
+    touch-action: manipulation;
+    /* 터치 하이라이트 제거 */
+    -webkit-tap-highlight-color: transparent;
+    /* 터치 피드백 */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 블랙 앤 화이트 테마 */
+@layer components {
+  .card {
+    @apply bg-white border border-gray-200 shadow-lg;
+  }
+  
+  .card-hover {
+    @apply hover:shadow-xl transition-all duration-300;
+  }
+  
+  .card-main {
+    @apply card rounded-3xl p-8 shadow-2xl card-hover;
+  }
+}
+
+/* 터치 최적화 애니메이션 */
+@layer utilities {
+  .touch-optimized {
+    @apply touch-manipulation select-none;
+  }
+  
+  .smooth-transition {
+    @apply transition-all duration-200 ease-in-out;
+  }
+  
+  .hover-scale {
+    @apply hover:scale-105 active:scale-95;
+  }
+}
+
+/* 라즈베리파이 최적화 */
+@media (max-width: 768px) {
+  /* 작은 화면에서 폰트 크기 조정 */
+  html {
+    font-size: 14px;
+  }
+  
+  /* 터치 영역 최소 크기 보장 */
+  button, [role="button"], input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* 다크 모드 최적화 */
+@media (prefers-color-scheme: dark) {
+  .card {
+    @apply bg-gray-900 border-gray-700;
+  }
+  
+  .card-hover {
+    @apply hover:bg-gray-800;
+  }
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  .card {
+    @apply bg-white border-black;
+  }
+}
+
+/* 애니메이션 감소 설정 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
